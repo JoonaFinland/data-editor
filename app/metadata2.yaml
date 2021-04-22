@@ -1,0 +1,33 @@
+datetime: 2020/03/18 13:06:30
+device:
+  model: Swan
+  imei: '4505'
+  mic_hw_gain_db: ok
+  mic_sensitivity_dbfs: test
+channels:
+  mic_right_1:
+    filename: 32b_16k_mic01.wav
+  mic_right_2:
+    filename: 32b_16k_mic02.wav
+  mic_right_3:
+    filename: 32b_16k_mic03.wav
+  mic_left_1:
+    filename: 32b_16k_mic11.wav
+  mic_left_2:
+    filename: 32b_16k_mic12.wav
+  mic_left_3:
+    filename: 32b_16k_mic13.wav
+  vpu_right:
+    filename: 32b_16k_vpu0.wav
+  vpu_left:
+    filename: 32b_16k_vpu1.wav
+user:
+  name: 423
+  gender: female
+  style: normal
+location:
+  type: airport_3PASsdds
+audioscene:
+  language: No_speechds
+  environment:
+    season: spring

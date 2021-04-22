@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Metadata Editor</title>
+<!----><link rel="stylesheet" type="text/css" href="../static/main.css" media="all">
+<script type="text/javascript" src="../static/main.js"></script>
+</head>
+<script type="text/javascript">
+    function change_bg(id, col) {
+        var d = document.getElementById(id);
+        d.style.background == col;
+    }
+</script>
+<script type="text/javascript">
+   function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block' || e.style.display == '')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+   }
+</script>
+<script>
+   function change_button(id) {
+       var f = document.getElementById(id);
+       if(f.innerHTML.includes('▼'))
+          f.innerHTML = f.innerHTML.replace(/▼/g,"▲");
+       else if(f.innerHTML.includes('▲'))
+          f.innerHTML = f.innerHTML.replace(/▲/g,"▼");
+   }
+</script>
+<body id="main_body" >
+{% block content %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+</ul>
+<div class="form">
+     <form method="POST" action="/multi" enctype="multipart/form-data">
+     <div style="display: none">
+        <input id="g_ind" name="g_ind" type="cont" value="{{glob_data['ind']}}">
+        <input id="g_subfolders" name="g_subfolders" type="cont" value="{{glob_data['subfolders_str']}}">
+        <input id="g_current_file" name="g_current_file" type="cont" value="{{glob_data['current_file']}}">
+      </div>
+      <div class="line">
+      <h2 class="title">{{ title }} Multi</h2><span>
+      <input id="change" name="change" type="submit" value="Change to Single File">
+      </span></div>
+      {{ form.hidden_tag()}}
+      <div class="line">
+      <div class="inline"><input id="back" name="back" type="submit" value="Back (No Generating)"></div>
+      <div class="inline"><input id="submit" name="submit" type="submit" value="Generate and Next"></div>
+      <div class="inline"><input id="next" name="next" type="submit" value="Next (No Generating)"></div>
+      </div>
+      <p> Use Back and Next buttons to switch Metadata WITHOUT Generating. Click Generate and Next instead.
+      <br> The input below is the PARENT IMEI (for now) DIRECTORY to crawl through.
+      <br> Use Skip existing metadata checkbox to skip test vectors with existing metadata.yaml files.
+      <br> Load Only Keywords to be separated by commas. i.e: word1,word2,word3. This will only load test vectors with given keywords.
+      <div class="line">{{ form.schema_file.label }} <span id="file_span"> {{ form.schema_file }}
+      <label id="file_bg" for="schema_file">Upload File: {{def_schema}}</label></span>
+      </div>
+      <div class="line">
+      <label for="output_loc">Parent Directory: </label>
+      <span><input id="output_loc" name="output_loc" type="text" value="{{out_loc}}" size="80"></span>
+      </div>
+      <div class="line">
+      <label class="overwritebox" for="overwrite">Overwrite Metadata File</label><span>
+      <input type="checkbox" id="overwrite" name="overwrite" value="True"
+      {% if ovr == "True" %}
+      checked
+      {% endif %}>
+      </span>
+      </div>
+      <div class="line">
+      <label class="overwritedate" for="overdate">Overwrite DateTime</label><span>
+      <input type="checkbox" id="overdate" name="overdate" value="True"
+      {% if ovrd == "True" %}
+      checked
+      {% endif %}>
+      </span>
+      </div>
+      <div class="line">
+      <label class="skipbox" for="skipbox">Skip existing metadata</label><span>
+      <input type="checkbox" id="skipbox" name="skipbox" value="True"
+      {% if skip == "True" %}
+      checked
+      {% endif %}>
+      </span>
+      </div>
+      <div class="line">
+      <label for="skip_tags">Load Only Keywords [optional]: </label>
+      <span><input id="skip_tags" name="skip_tags" type="text" value="{{skip_tags}}" size="80" /></span>
+      </div>
+      <input type="submit" name="upload" value = "Upload Folder/File">
+      <div>
+      <!--<input type="submit" name="update" value = "Update Fields">-->
+      <h3>[{{cur}}/{{length}}] Current Metadata Folder: {{glob_data['current_file']}}</h3>
+      </div>
+      <!--<input type="submit" name="update" value = "Update DateTime">-->
+      {% for key1,val1 in to_p.items() %}
+        <div class "button-class">
+        <button id="but-{{key1}}" type="button" onclick="toggle_visibility('hide-{{key1}}');change_button('but-{{key1}}');">▼ {{ key1 }} ▼</button>
+        </div>
+        <div class="hide" id="hide-{{key1}}" style="display: none">
+        {% if val1 is mapping %}
+            {% for key2,val2 in val1.items() %}
+                {% if val2 is mapping %}
+                    {% for key3,val3 in val2.items() %}
+                        {% if val3 is mapping %}
+                            <p>OK</p>
+                        {% else %}
+                            {% if val3 in ['string','number','file'] %}
+                                <div class="line">
+                                <label for="{{key1}};{{key2}};{{key3}}">{{key2}} {{ key3 }}:</label>
+                                <span>
+                                {% if key1 in ref and key2 in ref[key1] and key3 in ref[key1][key2] %}
+                                    <input id="{{key1}};{{key2}};{{key3}}" name="{{key1}};{{key2}};{{key3}}" type="text" value="{{ ref[key1][key2][key3] }}">
+                                {% elif key1 in data and key2 in data[key1] and key3 in data[key1][key2] %}
+                                    <input id="{{key1}};{{key2}};{{key3}}" name="{{key1}};{{key2}};{{key3}}" type="text" value="{{ data[key1][key2][key3] }}">
+                                {% else %}
+                                    <input id="{{key1}};{{key2}};{{key3}}" name="{{key1}};{{key2}};{{key3}}" type="text" value="">
+                                {% endif %}
+                                </span>
+                                </div>
+                            {% else %}
+                                <div class="line">
+                                <label for="{{key1}};{{key2}};{{key3}}">{{ key3 }}:</label>
+                                <span><select name="{{key1}};{{key2}};{{key3}}" id="{{key1}};{{key2}};{{key3}}">
+                                {% set flag = namespace() %}
+                                {% set flag.i = 0 %}
+                                {% for option in val3.split(',') %}
+                                    {% if key1 in ref and key2 in ref[key1] and key3 in ref[key1][key2] and ref[key1][key2][key3] == option%}
+                                        {% set flag.i = 1%}
+                                        <option value="{{option}}" selected>{{option}}</option>
+                                    {% elif key1 in data and key2 in data[key1] and key3 in data[key1][key2] and data[key1][key2][key3] == option%}
+                                        {% set flag.i = 1%}
+                                        <option value="{{option}}" selected>{{option}}</option>
+                                    {% elif option == 'Null' and flag.i == 0 %}
+                                        <option value="{{option}}" selected>{{option}}</option>
+                                    {% else %}
+                                        <option value="{{option}}">{{option}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                </select></span>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% if val2 in ['string','number','file'] %}
+                        <div class="line">
+                        <label for="{{key1}};{{key2}}">{{ key2 }}:</label>
+                        <span>
+                        {% if key1 in ref and key2 in ref[key1] and key2 in ref[key1] %}
+                            <input id="{{key1}};{{key2}}" name="{{key1}};{{key2}}" type="text" value="{{ ref[key1][key2] }}">
+                        {% elif key1 in data and key2 in data[key1] %}
+                            <input id="{{key1}};{{key2}}" name="{{key1}};{{key2}}" type="text" value="{{ data[key1][key2] }}">
+                        {% else %}
+                            <input id="{{key1}};{{key2}}" name="{{key1}};{{key2}}" type="text" value="">
+                        {% endif %}
+                        </span>
+                        </div>
+                    {% else %}
+                        <div class="line">
+                        <label for="{{key1}};{{key2}}">{{ key2 }}:</label>
+                        <span>
+                        <select name="{{key1}};{{key2}}" id="{{key1}};{{key2}}">
+                        {% set flag = namespace() %}
+                        {% set flag.i = 0 %}
+                        {% for option in val2.split(',') %}
+                            {% if key1 in ref and key2 in ref[key1] and ref[key1][key2] == option %}
+                                {% set flag.i = 1%}
+                                <option value="{{option}}" selected>{{option}}</option>
+                            {% elif key1 in data and key2 in data[key1] and data[key1][key2] == option %}
+                                {% set flag.i = 1%}
+                                <option value="{{option}}" selected>{{option}}</option>
+                            {% elif option == 'Null' and flag.i == 0 %}
+                                <option value="{{option}}" selected>{{option}}</option>
+                            {% else %}
+                                <option value="{{option}}">{{option}}</option>
+                            {% endif %}
+                        {% endfor %}
+                        </select></span>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% if val1 in ['string','number','file'] %}
+                <div class="line">
+                <label for="{{key1}}">{{ key1 }}:</label>
+                <span>
+                {% if dt_value != '' and key1 == 'datetime' %}
+                    <input id="{{key1}}" name="{{key1}}" type="text" value="{{ dt_value }}">
+                {% elif key1 in ref %}
+                    <input id="{{key1}}" name="{{key1}}" type="text" value="{{ ref[key1] }}">
+                {% elif key1 in data %}
+                    <input id="{{key1}}" name="{{key1}}" type="text" value="{{ data[key1] }}">
+                {% else %}
+                    <input id="{{key1}}" name="{{key1}}" type="text" value="">
+                                    
+                {% endif %}
+                </span>
+                </div>
+            {% else %}
+                <div class="line">
+                <label for="{{key1}}2">{{ key1 }}:</label>
+                <span>
+                <select name="{{ key1 }}" id="{{ key1 }}">
+                {% set flag = namespace() %}
+                {% set flag.i = 0 %}
+                {% for option in val1.split(',') %}
+                    {% if key1 in ref and ref[key1] == option %}
+                        {% set flag.i = 1%}
+                        <option value="{{option}}" selected>{{option}}</option>
+                    {% elif key1 in data and data[key1] == option %}
+                        {% set flag.i = 1%}
+                        <option value="{{option}}" selected>{{option}}</option>
+                    {% elif option == 'Null' and flag.i == 0 %}
+                        <option value="{{option}}" selected>{{option}}</option>
+                    {% else %}
+                        <option value="{{option}}">{{option}}</option>
+                    {% endif %}
+                {% endfor %}
+                </select></span>
+                </div>
+            {% endif %}
+        {% endif %}
+        </div>    
+      {% endfor %}
+  </form>
+</div>
+{% endblock %}
+</body>
+</html>

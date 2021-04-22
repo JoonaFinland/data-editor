@@ -1,0 +1,176 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.login-page {
+  width: 80%;
+  padding: 4% 0 0;
+  margin: auto;
+}
+.form .line {
+  display: inline-table;
+  width: 100%;
+}
+.form .inline {
+  display: table-cell;
+}
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 80%;
+  margin: 0 auto 100px;
+  padding: 45px;
+  padding-top: 5px;
+  text-align: left;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form span {
+  display: table-cell;
+}
+.form label {
+  display: table-cell;
+  width: 1px;
+  white-space: nowrap;
+}
+.form .hide {
+  outline: 0;
+  background: #C6EEC8;
+  border-style: none;
+  border-color: #4CAF50;
+  margin: 0 0 0px;
+  padding: 5px;
+}
+#submit {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4C79AF;
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  padding-left:8em;
+  padding-right:8em;
+  color: #FFFFFF;
+  font-size: 14px;
+  text-align: center;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+#next,#back {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #A4CEEA;
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  color: #FFFFFF;
+  font-size: 14px;
+  text-align: center;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form input[type=submit] {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  color: #FFFFFF;
+  font-size: 12px;
+  text-align: center;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form input[type=submit]:hover,.form input[type=submit]:active,.form input[type=submit]:focus {
+  background: #43A047;
+}
+.form input[type=file] {
+  display: none;
+}
+.form #file_bg {
+  background: #f2f2f2;
+  width: 10%;
+  padding-left:5em;
+  display: table-cell;
+  white-space: nowrap;
+}
+#file_span {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.form input[type=text],.form select {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 8px;
+  padding: 5px;
+  padding-bottom: 1px;
+  box-sizing: border-box;
+  font-size: 12px;
+}
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  color: #FFFFFF;
+  font-size: 12px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #43A047;
+}
+
+body {
+  background: #76b852; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+  background: -moz-linear-gradient(right, #76b852, #8DC26F);
+  background: -o-linear-gradient(right, #76b852, #8DC26F);
+  background: linear-gradient(to left, #76b852, #8DC26F);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;      
+}
+
+.overwritebox {
+  padding-bottom: 5px;
+}
+
+input[type=checkbox] {
+  width: 10px;
+  margin-right: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  visibility: hidden;
+}
+
+input[type=checkbox]:after {
+  content: " ";
+  background-color: #fff;
+  display: inline-block;
+  padding-bottom: 5px;
+  color: #006cf0;
+  width: 12px;
+  height: 10px;
+  visibility: visible;
+  border: 1px solid #006cf0;
+  padding-left: 3px;
+}
+
+input[type=checkbox]:checked:after {
+  content: "\2714";
+  padding: -5px;
+  font-weight: bold;
+}
