@@ -7,35 +7,6 @@ definitions:
         type: ["string", "null"]
     gender:
         enum: ["male", "female", "mix", "none"]
-    channel:
-        type: "object"
-        additionalProperties: false
-        properties:
-            filename:
-                type: "string"
-                description:  "{ type: \"file\" }"
-            gain_db:
-                type: "number"
-            mic_sensitivity_dbfs:
-                type: "number"
-            mic_hw_gain_db:
-                type: "number"
-            special:
-                enum: ["broken", "distortion", "clipping"]
-    size:
-        enum: ["xs", "s", "m", "l", "xl"]
-    sizeRelative:
-        enum: ["nominal", "small", "large", "extra"]
-    impact:
-        anyOf:
-            - type: "null"
-            - type: "string"
-            - type: "object"
-              properties:
-                    occasional:
-                        type: array
-                        items:
-                            type: string
 
 ############################################################################
 
@@ -45,93 +16,21 @@ properties:
     datetime: 
         type: "string"
         description: "{ eval: \"dateutil.parser.parse\" }"
-    device:
+    sandwich:
         type: "object"
         additionalProperties: false
         properties:
-            model:
-                enum: ["Swan", "Hyhky", "Shark3", "Pyynikki", "Mermaid", "Roc", "Roc2", "Roc3","LoonB","LoonA","LoonS1","LoonS2","Uuslaite"]
-            imei:
+            name:
                 $ref: "#/definitions/string"
-            mode:
-                enum: ["speakerphone", "headset", "handset", "handhold"]
-            mic_hw_gain_db:
+            type:
+                enum: ["Bread1", "Bread2", "Bread3", "Bread4", "Bread5"]
+            amount:
                 $ref: "#/definitions/numeric"
-            in_mic_hw_gain_db:
-                $ref: "#/definitions/numeric"
-            mic_sensitivity_dbfs:
-                $ref: "#/definitions/numeric"
-            special:
-                $ref: "#/definitions/string"
-            tip_size_right:
-                $ref: "#/definitions/size"
-            tip_size_left:
-                $ref: "#/definitions/size"
-            accbody:
-                $ref: "#/definitions/sizeRelative"
-            volume_setting:
-                $ref: "#/definitions/alphanumeric"
-            tips:
-                enum: ["optimal","loose","tight"]
-            special:
-                $ref: "#/definitions/string"
+            detail:
+                enum: ["onion", "tomato", "lettuce"]
 
-    channels:
-        type: "object"
-        additionalProperties: false
-        properties:
-            ecref:
-                $ref: "#/definitions/channel"
-            refmic:
-                $ref: "#/definitions/channel"
-            vacc:
-                $ref: "#/definitions/channel"
-            mrpmic:
-                $ref: "#/definitions/channel"
-            cheek:
-                $ref: "#/definitions/channel"
-            acc_left_x:
-                $ref: "#/definitions/channel"
-            acc_left_y:
-                $ref: "#/definitions/channel"
-            acc_left_z:
-                $ref: "#/definitions/channel"
-            acc_right_x:
-                $ref: "#/definitions/channel"
-            acc_right_y:
-                $ref: "#/definitions/channel"
-            acc_right_z:
-                $ref: "#/definitions/channel"
-            mic_right_1:
-                $ref: "#/definitions/channel"
-            mic_right_2:
-                $ref: "#/definitions/channel"
-            mic_right_3:
-                $ref: "#/definitions/channel"
-            mic_right_4:
-                $ref: "#/definitions/channel"
-            mic_right_5:
-                $ref: "#/definitions/channel"
-            mic_right_6:
-                $ref: "#/definitions/channel"
-            mic_left_1:
-                $ref: "#/definitions/channel"
-            mic_left_2:
-                $ref: "#/definitions/channel"
-            mic_left_3:
-                $ref: "#/definitions/channel"
-            mic_left_4:
-                $ref: "#/definitions/channel"
-            mic_left_5:
-                $ref: "#/definitions/channel"
-            mic_left_6:
-                $ref: "#/definitions/channel"
-            vpu_right:
-                $ref: "#/definitions/channel"
-            vpu_left:
-                $ref: "#/definitions/channel"
-    
-    user:
+        
+    customer2:
         type: "object"
         additionalProperties: false
         properties:
@@ -139,112 +38,19 @@ properties:
                 $ref: "#/definitions/string"
             gender:
                 $ref: "#/definitions/gender"
-            mouth_sounds:
-                $ref: "#/definitions/string"
-            physical_activity:
-                $ref: "#/definitions/string"
-            wearing:
-                $ref: "#/definitions/string"
-            style:
-                enum: ["normal", "whisper", "shouting", "loud", null]
-            direction:
-                enum: ['optimal', 'offset', 'downwards', 'upwards', null]
-            id:
-                $ref: "#/definitions/string"
-            handling:
-                $ref: "#/definitions/impact"
-            blocking:
-                $ref: "#/definitions/impact"
-            optimal_tip_size_right:
-                $ref: "#/definitions/size"
-            optimal_tip_size_left:
-                $ref: "#/definitions/size"
+            member:
+                enum: ["bronze", "silver", "gold", "premium"]
 
-    location:
-        type: "object"
-        additionalProperties: false
-        properties:
-            type:
-                enum: ['3PASS_xroad','3PASS_mixed', 'new1','3quest_cafe', '3quest_callcenter', '3quest_car',
-                '3quest_mensa', '3quest_pub', '3quest_road', '3quest_train', '3quest_xroad',
-                'airport_3PASS', 'anechoic_chamber', 'cafe', 
-                'cafe_3PASS', 'Callcenter2_3PASS', 'callcenter_3PASS', 'car', 
-                'car_80kmh_3PASS', 'car_100kmh_3PASS', 'car_130kmh_3PASS', 'car_3PASS', 
-                'conference_3PASS', 'corridor', 'crowd', 'home', 'insideBus_3PASS', 
-                'insideTrain_3PASS', 'metro', 'office', 
-                'office_reverberant', 'orchestra_3PASS', 'park', 'party', 'pub', 
-                'pub_3PASS', 'railway_platform', 'railwaystation', 'road_3PASS', 
-                'Roadnoise_3PASS', 'RockMusic_3PASS', 'SalesCounter_3PASS', 'shop', 
-                'SingleTalker_+22deg_3PASS', 'SingleTalker_00deg_3PASS', 'stereo_music', 
-                'street', 'street_3PASS', 
-                'trainStation_3PASS', 'wind', 'wind_15kh', 'windtunnel', 'windtunnel_1ms', 
-                'windtunnel_2ms', 'windtunnel_3ms', 'windtunnel_4ms', 'windtunnel_5ms', 'windtunnel_6ms']
-            note:
-                $ref: "#/definitions/string"
-
-    audioscene:
+    
+    test:
         type: "object"
         additionalProperties: false
         properties:
             type:
                 $ref: "#/definitions/string"
             language:
-                enum: ["English", "Finnish", "Chinese", "German", "mix", "No_speech", null]
-            nearend:
-                $ref: "#/definitions/string"
-                # enum: ["silent", "balanced", "vowels", "fricatives", "plosives", "bodilynoise"]
-            nearend:
-                $ref: "#/definitions/string"
-                # enum: ["silent", "balanced", "vowels", "fricatives", "plosives", "bodilynoise"]
-            environment:
-                type: object
-                additionalProperties: false
-                properties:
-                    type:
-                        $ref: "#/definitions/string"
-                    snr:
-                        $ref: "#/definitions/numeric"
-                    sounds:
-                        $ref: "#/definitions/string"
-                    weather:
-                        $ref: "#/definitions/string"
-                    season:
-                        $ref: "#/definitions/string"
-                    wind_direction:
-                        $ref: "#/definitions/string"
-            speech_level_db:
-                type: "number"
-
-    farend:
-        type: "object"
-        additionalProperties: false
-        properties:
-            name:
-                $ref: "#/definitions/string"
-            gender:
-                $ref: "#/definitions/gender"
-            bandwidth:
-                $ref: "#/definitions/numeric"
-            noise_type:
-                $ref: "#/definitions/string"
-
-    object:
-        type: "object"
-        additionalProperties: false
-        properties:
-            name:
-                $ref: "#/definitions/string"
-            gender:
-                $ref: "#/definitions/gender"
-            style:
-                $ref: "#/definitions/string"
-            direction:
-                $ref: "#/definitions/string"
-
+                enum: ["English", "Finnish", "French", "German", "mix", "No_speech", null]
+            
     note:
-        type: "string"
-        $ref: "#/definitions/string"
-    
-    timestamps:
         type: "string"
         $ref: "#/definitions/string"

@@ -1,4 +1,8 @@
-#from lxml import etree as et
+
+# This file has the validator logic, which is used in the flask app
+# to validate the data file according to schema rules
+
+
 from jsonschema import validate
 import pprint
 import pkg_resources

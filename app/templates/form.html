@@ -44,8 +44,7 @@
 <div class="form">
     <form method="POST" action="/" enctype="multipart/form-data">
     <div class="line">
-    <h2 class="title">{{ title }} Single</h2><span>
-    <input name="change" type="submit" value="Change to Multiple Files">
+    <h2 class="title">{{ title }} v1</h2><span>
     </span></div>
   
       {{ form.hidden_tag()}}
@@ -65,12 +64,6 @@
       </span>
       </div>
       <div class="line">
-      <label class="overwritedate" for="overdate">Overwrite DateTime</label><span>
-      <input type="checkbox" id="overdate" name="overdate" value="True"
-      {% if ovrd == "True" %}
-      checked
-      {% endif %}>
-      </span>
       </div>
       <input type="submit" name="upload" value = "Upload Files">
       <p> Schema default is schema.yml, and reference file default is empty 
@@ -78,9 +71,6 @@
       <div class="line">
       <label for="output_loc">Output Location: </label>
       <span><input id="output_loc" name="output_loc" type="text" value="{{out_loc}}" size="80"></span>
-      </div>
-      <div>
-      <input type="submit" name="update" value = "Update Fields">
       </div>
       <br>
       <!--<input type="submit" name="update" value = "Update DateTime">-->
